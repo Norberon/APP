@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de Bilan Mensuel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <i class="bi bi-file-earmark-spreadsheet"></i> Gestion de Bilan
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" id="dashboard-link">Tableau de bord</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="sales-entry-link">Saisie de ventes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="products-link">Produits</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="reports-link">Rapports</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Section Tableau de bord -->
+        <section id="dashboard-section" class="section-content">
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h2><i class="bi bi-speedometer2"></i> Tableau de bord</h2>
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary">
+                        <div class="card-body">
+                            <h5 class="card-title">Recette Brute</h5>
+                            <h2 id="total-revenue">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-success">
+                        <div class="card-body">
+                            <h5 class="card-title">Recette Finale</h5>
+                            <h2 id="final-revenue">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-warning">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Articles</h5>
+                            <h2 id="total-articles">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-danger">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Dépenses</h5>
+                            <h2 id="total-expenses">0</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Ventes par catégorie</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="salesByCategory"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Ventes du mois</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="salesByDay"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Saisie de ventes -->
+        <section id="sales-entry-section" class="section-content d-none">
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h2><i class="bi bi-cart-plus"></i> Saisie de ventes</h2>
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Nouvelle vente</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="sales-form">
+                                <div class="mb-3">
+                                    <label for="sale-date" class="form-label">Date</label>
+                                    <input type="date" class="form-control" id="sale-date" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="product-select" class="form-label">Produit/Service</label>
+                                    <select class="form-control" id="product-select" required>
+                                        <option value="">Sélectionner un produit</option>
+                                        <optgroup label="Photocopies">
+                                            <option value="photocopie 25f">Photocopie 25f</option>
+                                            <option value="photocopie 15f">Photocopie 15f</option>
+                                        </optgroup>
+                                        <optgroup label="Impressions">
+                                            <option value="impression 100f">Impression 100f</option>
+                                            <option value="impression 50f">Impression 50f</option>
+                                            <option value="impression 25f">Impression 25f</option>
+                                        </optgroup>
+                                        <optgroup label="SIM">
+                                            <option value="SIM MOOV">SIM MOOV</option>
+                                            <option value="SIM Tgcom 1000">SIM Tgcom 1000</option>
+                                            <option value="Sim tgcom 800">Sim tgcom 800</option>
+                                        </optgroup>
+                                        <optgroup label="Services">
+                                            <option value="SCANNER">SCANNER</option>
+                                            <option value="Saisie + Imp">Saisie + Imp</option>
+                                            <option value="Saisie 250">Saisie 250</option>
+                                            <option value="Saisie 200">Saisie 200</option>
+                                        </optgroup>
+                                        <optgroup label="WIFI">
+                                            <option value="WIFI 100">WIFI 100</option>
+                                            <option value="WIFI 150">WIFI 150</option>
+                                            <option value="WIFI 200">WIFI 200</option>
+                                            <option value="WIFI 500">WIFI 500</option>
+                                            <option value="WIFI 2000">WIFI 2000</option>
+                                        </optgroup>
+                                        <optgroup label="Autres">
+                                            <option value="CHEMISE">CHEMISE</option>
+                                            <option value="Enveloppe 100">Enveloppe 100</option>
+                                            <option value="Enveloppe 50">Enveloppe 50</option>
+                                            <option value="Enveloppe 25">Enveloppe 25</option>
+                                            <option value="ECOUTEUR">ECOUTEUR</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="quantity" class="form-label">Quantité</label>
+                                    <input type="number" class="form-control" id="quantity" min="1" value="1" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="price" class="form-label">Prix unitaire</label>
+                                    <input type="number" class="form-control" id="price" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Ajouter</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Ventes du jour</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="daily-sales-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Produit</th>
+                                            <th>Quantité</th>
+                                            <th>Prix unitaire</th>
+                                            <th>Total</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="daily-sales-body">
+                                        <!-- Les entrées seront ajoutées ici dynamiquement -->
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="3">Total</th>
+                                            <th id="daily-sales-total">0</th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Produits -->
+        <section id="products-section" class="section-content d-none">
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h2><i class="bi bi-box-seam"></i> Gestion des produits</h2>
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Ajouter/Modifier un produit</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="product-form">
+                                <div class="mb-3">
+                                    <label for="product-name" class="form-label">Nom du produit</label>
+                                    <input type="text" class="form-control" id="product-name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="product-category" class="form-label">Catégorie</label>
+                                    <select class="form-control" id="product-category" required>
+                                        <option value="">Sélectionner une catégorie</option>
+                                        <option value="Photocopies">Photocopies</option>
+                                        <option value="Impressions">Impressions</option>
+                                        <option value="SIM">SIM</option>
+                                        <option value="Services">Services</option>
+                                        <option value="WIFI">WIFI</option>
+                                        <option value="Autres">Autres</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="product-price" class="form-label">Prix unitaire</label>
+                                    <input type="number" class="form-control" id="product-price" required>
+                                </div>
+                                <input type="hidden" id="product-id">
+                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                <button type="button" id="clear-product-form" class="btn btn-secondary">Nouvelle entrée</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Liste des produits</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="products-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Catégorie</th>
+                                            <th>Prix unitaire</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="products-body">
+                                        <!-- Les produits seront ajoutés ici dynamiquement -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Rapports -->
+        <section id="reports-section" class="section-content d-none">
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h2><i class="bi bi-file-earmark-text"></i> Rapports</h2>
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Générer un rapport</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="report-form" class="row g-3">
+                                <div class="col-md-4">
+                                    <label for="report-type" class="form-label">Type de rapport</label>
+                                    <select class="form-control" id="report-type" required>
+                                        <option value="daily">Rapport journalier</option>
+                                        <option value="monthly" selected>Rapport mensuel</option>
+                                        <option value="category">Rapport par catégorie</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="report-month" class="form-label">Mois</label>
+                                    <input type="month" class="form-control" id="report-month" required>
+                                </div>
+                                <div class="col-md-4 d-flex align-items-end">
+                                    <button type="submit" class="btn btn-primary">Générer</button>
+                                    <button type="button" id="export-report" class="btn btn-success ms-2">Exporter (Excel)</button>
+                                    <button type="button" id="print-report" class="btn btn-secondary ms-2">Imprimer</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 id="report-title">Rapport mensuel</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="report-container">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="report-table">
+                                        <thead id="report-table-head">
+                                            <!-- L'entête sera généré dynamiquement -->
+                                        </thead>
+                                        <tbody id="report-table-body">
+                                            <!-- Le contenu sera généré dynamiquement -->
+                                        </tbody>
+                                        <tfoot id="report-table-foot">
+                                            <!-- Le pied sera généré dynamiquement -->
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5>Résumé</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <table class="table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>SOMME ARTICLE</th>
+                                                            <td id="report-sum-articles">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>SOMME WIFI</th>
+                                                            <td id="report-sum-wifi">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>RECETTE BRUTE</th>
+                                                            <td id="report-gross-revenue">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>SOMME DEPENSE</th>
+                                                            <td id="report-sum-expenses">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>RECETTE FINALE</th>
+                                                            <td id="report-net-revenue">0</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5>Graphique</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <canvas id="report-chart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">© 2025 Gestion de Bilan Mensuel</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
